@@ -9,7 +9,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 
 /**
  *
@@ -23,78 +22,39 @@ public class Workshop_Booking {
     public static void main(String[] args) {
         
         Socket link = null;
+        int clientNumber = 0;
         
         try {
             // create server socket instance
             servSock = new ServerSocket(PORT);
             System.out.println("Server socket created sucessfully");
             System.out.println("Waiting for clinet");
-            
-            // waiting for a connection to be established
-             
-            link = servSock.accept();   // it will wait until client arrives
-            System.out.println("Client connected");
-            
-            // use the input and output stream to send and receive information
-            BufferedReader in = new BufferedReader(new InputStreamReader(link.getInputStream()));
-            PrintWriter out = new PrintWriter(link.getOutputStream(), true);
-                        
-            // read a message
-            // keep the connection until client sends stop
-            String response;
-                        
+
             BookingManage bookManage = new BookingManage();
             
-            while((response = in.readLine()) != null) {
+            while(true) {
+                link = servSock.accept();
+                System.out.println("Client connected, client number: " + clientNumber);
+                clientNumber++;
                 
-                if(response.equalsIgnoreCase("stop")) {
-                    out.println("TERMINATE");   // send TERMINATE to client
-                    System.out.println("Connection finished");
-                    break;
-                }
+                ThreadForBookingManage tBookingManage = new ThreadForBookingManage(link, bookManage);
                 
+                Thread t = new Thread(tBookingManage);
                 
-                String parts[] = response.split(";");
-                
-                String action = parts[0].trim();
-                
-                try {
-                    if(action.equalsIgnoreCase("book")) {
-                        out.println(bookManage.book(parts[1].trim(), parts[2].trim(), parts[3].trim(), parts[4].trim()));
-                    }
-                    else if(action.equalsIgnoreCase("list")) {
-                        out.println(bookManage.list(parts[1].trim()));
-                    }
-                    else if(action.equalsIgnoreCase("cancel")) {
-                        out.println(bookManage.cancel(parts[1].trim(), parts[2].trim(), parts[3].trim(), parts[4].trim()));
-                    }
-                    else {
-                        throw new InvalidCommandException("action must be book/cancel/list");
-                    }
-                }
-                catch(InvalidCommandException e) {
-                    out.println("InvalidCommandException: " + e.getMessage());
-                    System.out.println("InvalidCommandException: " + e.getMessage());
-                }
-                
+                t.start(); 
             }
-            
         }
         catch(Exception e) {
             System.out.println("Error (during connection): " + e.getMessage());
         }
         finally {
-            try {
-                if(link != null) {
-                    link.close();
-                }
-                
+            try {                
                 if(servSock != null) {
                     servSock.close();
                 }
             }
             catch(Exception e) {
-                System.out.println("Error (during close):" + e.getMessage());
+                System.out.println("Error (servSock close):" + e.getMessage());
             }
         }
         
