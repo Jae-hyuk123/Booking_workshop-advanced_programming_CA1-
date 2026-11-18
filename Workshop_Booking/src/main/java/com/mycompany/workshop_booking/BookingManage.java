@@ -14,24 +14,17 @@ public class BookingManage {
     
     private ArrayList<Booking> bookings = new ArrayList<>();
     
-    public String book(String name, String workshopName, String date, String time) {
+    public String book(String name, String workshopName, String date, String time) throws InvalidCommandException {
         String allInfo = name + ", " + workshopName + ", " + date + ", " + time;
-        boolean check = true;
         
         for(int i=0; i<bookings.size(); i++) {
             if(allInfo.equalsIgnoreCase(bookings.get(i).getAllInfo())) {
-                check = false;
-                break;
+                throw new InvalidCommandException(name + " already has this booking");
             }
         }
         
-        if(check) {
-            bookings.add(new Booking(name, workshopName, date, time));
-            return list(name);
-        }
-        else {
-            return "There is already the same booking";
-        }
+        bookings.add(new Booking(name, workshopName, date, time));
+        return list(name);
     }
     
     public String list(String name) {
@@ -53,7 +46,7 @@ public class BookingManage {
         }
     }
     
-    public String cancel(String name, String workshopName, String date, String time) {
+    public String cancel(String name, String workshopName, String date, String time) throws InvalidCommandException {
         
         String allInfo = name + ", " + workshopName + ", " + date + ", " + time;
         
@@ -64,7 +57,7 @@ public class BookingManage {
             }
         }
         
-        return "There is no such booking";
+        throw new InvalidCommandException(name + " does not have this booking");
     }
     
 }

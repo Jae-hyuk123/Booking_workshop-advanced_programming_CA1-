@@ -49,14 +49,14 @@ public class Workshop_Booking_Client {
             System.out.println("Error (during connection): " + e.getMessage());
         }
         finally {
-            try {
-                if(link != null) {
-                    link.close();
+                try {
+                    if(link != null) {
+                        link.close();
+                    }
                 }
-            }
-            catch (Exception e) {
-                System.out.println("Error (during close): " + e.getMessage());
-            }
+                catch (Exception e) {
+                    System.out.println("Error (during close): " + e.getMessage());
+                }
         }
     }
 }

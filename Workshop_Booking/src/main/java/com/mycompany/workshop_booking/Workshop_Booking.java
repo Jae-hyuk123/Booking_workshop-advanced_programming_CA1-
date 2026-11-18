@@ -58,18 +58,23 @@ public class Workshop_Booking {
                 
                 String action = parts[0].trim();
                 
-                if(action.equalsIgnoreCase("book")) {
-                    out.println(bookManage.book(parts[1].trim(), parts[2].trim(), parts[3].trim(), parts[4].trim()));
-                    
+                try {
+                    if(action.equalsIgnoreCase("book")) {
+                        out.println(bookManage.book(parts[1].trim(), parts[2].trim(), parts[3].trim(), parts[4].trim()));
+                    }
+                    else if(action.equalsIgnoreCase("list")) {
+                        out.println(bookManage.list(parts[1].trim()));
+                    }
+                    else if(action.equalsIgnoreCase("cancel")) {
+                        out.println(bookManage.cancel(parts[1].trim(), parts[2].trim(), parts[3].trim(), parts[4].trim()));
+                    }
+                    else {
+                        throw new InvalidCommandException("action must be book/cancel/list");
+                    }
                 }
-                else if(action.equalsIgnoreCase("list")) {
-                    out.println(bookManage.list(parts[1].trim()));
-                }
-                else if(action.equalsIgnoreCase("cancel")) {
-                    out.println(bookManage.cancel(parts[1].trim(), parts[2].trim(), parts[3].trim(), parts[4].trim()));
-                }
-                else {
-                    
+                catch(InvalidCommandException e) {
+                    out.println("InvalidCommandException: " + e.getMessage());
+                    System.out.println("InvalidCommandException: " + e.getMessage());
                 }
                 
             }
