@@ -14,7 +14,7 @@ public class BookingManage {
     
     private ArrayList<Booking> bookings = new ArrayList<>();
     
-    public String book(String name, String workshopName, String date, String time) throws InvalidCommandException {
+    public synchronized String book(String name, String workshopName, String date, String time) throws InvalidCommandException {
         String allInfo = name + ", " + workshopName + ", " + date + ", " + time;
         
         for(int i=0; i<bookings.size(); i++) {
@@ -27,7 +27,7 @@ public class BookingManage {
         return list(name);
     }
     
-    public String list(String name) {
+    public synchronized String list(String name) {
         int count = 0;
         String list = "";
         
@@ -46,7 +46,7 @@ public class BookingManage {
         }
     }
     
-    public String cancel(String name, String workshopName, String date, String time) throws InvalidCommandException {
+    public synchronized String cancel(String name, String workshopName, String date, String time) throws InvalidCommandException {
         
         String allInfo = name + ", " + workshopName + ", " + date + ", " + time;
         
