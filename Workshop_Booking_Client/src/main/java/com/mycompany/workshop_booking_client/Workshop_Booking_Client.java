@@ -42,7 +42,7 @@ public class Workshop_Booking_Client {
                 message = userEntry.readLine();
                 out.println(message);
                 response = in.readLine();
-                System.out.println("server: " + response);
+                System.out.println(response);
             } while(!message.equalsIgnoreCase("stop"));
         }
         catch(Exception e) {

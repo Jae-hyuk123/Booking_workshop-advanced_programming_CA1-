@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 
 /**
  *
@@ -37,15 +38,12 @@ public class Workshop_Booking {
             // use the input and output stream to send and receive information
             BufferedReader in = new BufferedReader(new InputStreamReader(link.getInputStream()));
             PrintWriter out = new PrintWriter(link.getOutputStream(), true);
-            
-            BufferedReader serverEntry = new BufferedReader(new InputStreamReader(System.in));
-            
+                        
             // read a message
             // keep the connection until client sends stop
-            String message;
             String response;
-            
-            System.out.println("Enter message to be sent to clinet: ");
+                        
+            BookingManage bookManage = new BookingManage();
             
             while((response = in.readLine()) != null) {
                 
@@ -55,10 +53,24 @@ public class Workshop_Booking {
                     break;
                 }
                 
-                System.out.println("client: " + response);
                 
-                message = serverEntry.readLine();
-                out.println(message);
+                String parts[] = response.split(";");
+                
+                String action = parts[0].trim();
+                
+                if(action.equalsIgnoreCase("book")) {
+                    out.println(bookManage.book(parts[1].trim(), parts[2].trim(), parts[3].trim(), parts[4].trim()));
+                    
+                }
+                else if(action.equalsIgnoreCase("list")) {
+                    out.println(bookManage.list(parts[1].trim()));
+                }
+                else if(action.equalsIgnoreCase("cancel")) {
+                    out.println(bookManage.cancel(parts[1].trim(), parts[2].trim(), parts[3].trim(), parts[4].trim()));
+                }
+                else {
+                    
+                }
                 
             }
             
