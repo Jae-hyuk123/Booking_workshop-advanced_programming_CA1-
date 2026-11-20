@@ -1,6 +1,0 @@
-member=Dave
-Python Basics; 20 November 2026; 2 pm
-Advanced Programming; 21 November 2026; 3pm
-Work placement; 22 November 2026; 10 am
-Soccer; 23 November 2026; 2pm
-AI; 27 November 2026; 9 am

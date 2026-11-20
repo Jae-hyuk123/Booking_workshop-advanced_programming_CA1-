@@ -1,6 +1,0 @@
-member=Dave
-Python Basics; 20 November 2026; 2 pm
-Advanced Programming; invalid input
-Work placement; 22 November 2026; 10 am
-invalid input; 23 November 2026
-AI; 27 November 2026; 9 am

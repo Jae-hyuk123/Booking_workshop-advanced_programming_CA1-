@@ -30,13 +30,19 @@ public class Workshop_Booking {
             System.out.println("Server socket created sucessfully");
             System.out.println("Waiting for clinet");
 
+            // create instance of bookingManage
             BookingManage bookManage = new BookingManage();
             
             while(true) {
+                // wait for a connection to be estblished
                 link = servSock.accept();
-                System.out.println("Client connected, client number: " + clientNumber);
-                clientNumber++;
                 
+                // count the total number of client
+                clientNumber++;
+                System.out.println("Client connected, client number: " + clientNumber);
+                
+                // Thread
+                // send link and bookMange as arguments
                 ThreadForBookingManage tBookingManage = new ThreadForBookingManage(link, bookManage);
                 
                 Thread t = new Thread(tBookingManage);

@@ -33,16 +33,20 @@ public class ThreadForBookingManage implements Runnable {
         // use the input and output stream to send and receive information
             BufferedReader in = new BufferedReader(new InputStreamReader(link.getInputStream()));
             PrintWriter out = new PrintWriter(link.getOutputStream(), true);
-
+            
             while((response = in.readLine()) != null) {
+               
+                // if a user send "stop"
                 if(response.equalsIgnoreCase("stop")) {
                     out.println("TERMINATE");   // send TERMINATE to client
                     System.out.println("Connection finished");
                     break;
                 }
                 
+                // split the user input by ";"
                 String parts[] = response.split(";");
                 
+                // variable for action (book, list, and cancel)
                 String action = parts[0].trim();
                 
                 try {
